@@ -14,25 +14,30 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: account-rest
-          uri: http://localhost:8081
+          uri: lb://account-service
           predicates:
             - Path=/api/accounts/**
         - id: transaction-rest
-          uri: http://localhost:8082
+          uri: lb://transaction-service
           predicates:
             - Path=/api/transactions/**
         - id: account-graphql
-          uri: http://localhost:8081
+          uri: lb://account-service
           predicates:
             - Path=/account/graphql
           filters:
             - RewritePath=/account/graphql, /graphql
         - id: transaction-graphql
-          uri: http://localhost:8082
+          uri: lb://transaction-service
           predicates:
             - Path=/transaction/graphql
           filters:
             - RewritePath=/transaction/graphql, /graphql
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
 management:
   endpoint:
