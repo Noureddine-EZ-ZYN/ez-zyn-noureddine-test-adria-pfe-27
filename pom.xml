@@ -21,16 +21,26 @@
     <modules>
         <module>account-service</module>
         <module>transaction-service</module>
+        <module>gateway-service</module>
     </modules>
 
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2024.0.1</spring-cloud.version>
+        <resilience4j.version>2.3.0</resilience4j.version>
         <spring-ai.version>1.0.0</spring-ai.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Doit rester en premier : aligne toutes les versions resilience4j-* (spring-cloud en impose une plus ancienne) -->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-bom</artifactId>
+                <version>${resilience4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
