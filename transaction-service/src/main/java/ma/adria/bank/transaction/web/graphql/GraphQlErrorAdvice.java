@@ -10,7 +10,7 @@ import org.springframework.graphql.execution.ErrorType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice
-public class GraphQlExceptionHandler {
+public class GraphQlErrorAdvice {
 
     @GraphQlExceptionHandler({AccountNotFoundException.class, TransactionNotFoundException.class})
     public GraphQLError handleNotFound(RuntimeException ex) {
