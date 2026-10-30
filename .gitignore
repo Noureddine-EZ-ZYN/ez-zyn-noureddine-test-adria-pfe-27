@@ -1,0 +1,15 @@
+target/
+.idea/
+*.iml
+.vscode/
+node_modules/
+dist/
+.angular/
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+.env
+*.log
+
+# Secrets locaux (clés API)
+application-local.properties

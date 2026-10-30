@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ecc802ea-38c4-4fad-8bc2-36156ad3ad2e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/target/classes/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,8 +98,9 @@
     </configuration>
     <configuration name="AssistantServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <envs>
-        <env name="OPENAI_API_KEY" value="AQ.Ab8RN6KETQR7sYYWhMS1vGi1Y9rTcuB9x9TUwTLfFK3oW2VK2g" />
-        <env name="OPENAI_MODEL" value="gemini-2.5-flash" />
+        <env name="OPENAI_API_KEY" value="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" />
+        <env name="OPENAI_BASE_URL" value="https://api.groq.com/openai" />
+        <env name="OPENAI_MODEL" value="gemini-3.8-flash" />
       </envs>
       <module name="assistant-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ma.adria.bank.assistant.AssistantServiceApplication" />

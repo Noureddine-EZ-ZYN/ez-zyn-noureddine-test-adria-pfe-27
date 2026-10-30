@@ -21,6 +21,10 @@ spring:
           uri: lb://transaction-service
           predicates:
             - Path=/api/transactions/**
+        - id: assistant-chat
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/chat
         - id: account-graphql
           uri: lb://account-service
           predicates:
