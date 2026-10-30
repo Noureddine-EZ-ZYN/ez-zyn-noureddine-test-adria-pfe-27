@@ -1,0 +1,22 @@
+<h2>Assistant bancaire</h2>
+
+<section class="card">
+  <div class="chat">
+    @for (message of messages(); track $index) {
+      <div class="bubble" [class]="'bubble ' + message.role">{{ message.text }}</div>
+    } @empty {
+      <p class="muted">
+        Posez une question, par exemple : « Liste tous les comptes » ou « Vire 50 EUR du compte X vers le compte Y ».
+      </p>
+    }
+    @if (loading()) {
+      <div class="bubble assistant muted">L'assistant réfléchit…</div>
+    }
+  </div>
+
+  <form class="form-row" (ngSubmit)="send()">
+    <input class="grow" name="message" placeholder="Votre message" [(ngModel)]="input" autocomplete="off" />
+    <button type="submit" [disabled]="loading() || !input().trim()">Envoyer</button>
+    <button type="button" class="secondary" (click)="reset()">Nouvelle conversation</button>
+  </form>
+</section>

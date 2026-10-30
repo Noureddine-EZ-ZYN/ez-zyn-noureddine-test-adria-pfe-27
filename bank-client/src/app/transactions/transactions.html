@@ -1,0 +1,122 @@
+<h2>Transactions</h2>
+
+@if (error()) {
+  <div class="alert error">{{ error() }}</div>
+}
+@if (success()) {
+  <div class="alert success">{{ success() }}</div>
+}
+
+<section class="card">
+  <h3>Nouvelle transaction</h3>
+  <form class="form-row" (ngSubmit)="create()">
+    <label>
+      Compte
+      <select name="accountId" [ngModel]="accountId()" (ngModelChange)="selectAccount($event)">
+        <option value="" disabled>Choisir…</option>
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.id">
+            {{ account.customerReference }} ({{ account.balance | number: '1.2-2' }} {{ account.currency }})
+          </option>
+        }
+      </select>
+    </label>
+    <label>
+      Montant
+      <input name="amount" type="number" min="0" [(ngModel)]="amount" />
+    </label>
+    <label>
+      Devise
+      <input name="currency" size="4" [(ngModel)]="currency" />
+    </label>
+    <label>
+      Catégorie
+      <input name="merchantCategory" [(ngModel)]="merchantCategory" />
+    </label>
+    <label>
+      Pays
+      <input name="country" size="4" [(ngModel)]="country" />
+    </label>
+    <button type="submit" [disabled]="!accountId() || amount() <= 0">Enregistrer</button>
+  </form>
+</section>
+
+<section class="card">
+  <h3>Virement</h3>
+  <form class="form-row" (ngSubmit)="transfer()">
+    <label>
+      Compte source
+      <select name="sourceId" [(ngModel)]="sourceId">
+        <option value="" disabled>Choisir…</option>
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.id">{{ account.customerReference }} ({{ account.currency }})</option>
+        }
+      </select>
+    </label>
+    <label>
+      Compte cible
+      <select name="targetId" [(ngModel)]="targetId">
+        <option value="" disabled>Choisir…</option>
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.id">{{ account.customerReference }} ({{ account.currency }})</option>
+        }
+      </select>
+    </label>
+    <label>
+      Montant
+      <input name="transferAmount" type="number" min="0" [(ngModel)]="transferAmount" />
+    </label>
+    <label>
+      Devise
+      <input name="transferCurrency" size="4" [(ngModel)]="transferCurrency" />
+    </label>
+    <label>
+      Pays
+      <input name="transferCountry" size="4" [(ngModel)]="transferCountry" />
+    </label>
+    <button type="submit" [disabled]="!sourceId() || !targetId() || transferAmount() <= 0">Virer</button>
+  </form>
+</section>
+
+<section class="card">
+  <div class="form-row">
+    <h3>Historique</h3>
+    <label>
+      Filtrer par compte
+      <select [(ngModel)]="filterAccountId">
+        <option value="">Tous les comptes</option>
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.id">{{ account.customerReference }}</option>
+        }
+      </select>
+    </label>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Compte</th>
+        <th>Type</th>
+        <th>Montant</th>
+        <th>Catégorie</th>
+        <th>Pays</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (transaction of transactions(); track transaction.id) {
+        <tr>
+          <td>{{ transaction.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td class="mono">{{ transaction.accountId.slice(0, 8) }}…</td>
+          <td><span class="badge" [class]="'badge ' + transaction.type">{{ transaction.type }}</span></td>
+          <td>{{ transaction.amount | number: '1.2-2' }} {{ transaction.currency }}</td>
+          <td>{{ transaction.merchantCategory }}</td>
+          <td>{{ transaction.country }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6" class="muted">Aucune transaction.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

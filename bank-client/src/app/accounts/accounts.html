@@ -1,0 +1,75 @@
+<h2>Comptes</h2>
+
+@if (error()) {
+  <div class="alert error">{{ error() }}</div>
+}
+@if (success()) {
+  <div class="alert success">{{ success() }}</div>
+}
+
+<section class="card">
+  <h3>Ouvrir un compte</h3>
+  <form class="form-row" (ngSubmit)="create()">
+    <label>
+      Référence client
+      <input name="customerReference" [(ngModel)]="customerReference" required />
+    </label>
+    <label>
+      Devise
+      <input name="currency" [(ngModel)]="currency" size="4" required />
+    </label>
+    <label>
+      Solde initial
+      <input name="initialBalance" type="number" min="0" [(ngModel)]="initialBalance" />
+    </label>
+    <button type="submit" [disabled]="!customerReference() || !currency()">Créer</button>
+  </form>
+</section>
+
+<section class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Identifiant</th>
+        <th>Client</th>
+        <th>Devise</th>
+        <th>Solde</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (account of accounts(); track account.id) {
+        <tr class="selectable" [class.selected]="account.id === selectedId()" (click)="selectedId.set(account.id)">
+          <td class="mono">{{ account.id }}</td>
+          <td>{{ account.customerReference }}</td>
+          <td>{{ account.currency }}</td>
+          <td>{{ account.balance | number: '1.2-2' }}</td>
+          <td><span class="badge" [class]="'badge ' + account.status">{{ account.status }}</span></td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="5" class="muted">Aucun compte.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
+
+@if (selected(); as account) {
+  <section class="card">
+    <h3>Opérations sur {{ account.customerReference }}</h3>
+    <div class="form-row">
+      <label>
+        Montant
+        <input type="number" min="0" [(ngModel)]="amount" />
+      </label>
+      <button (click)="credit(account)" [disabled]="amount() <= 0">Créditer</button>
+      <button (click)="debit(account)" [disabled]="amount() <= 0">Débiter</button>
+      <button
+        [class]="account.status === 'ACTIVE' ? 'danger' : 'secondary'"
+        (click)="toggleStatus(account)">
+        {{ account.status === 'ACTIVE' ? 'Bloquer' : 'Activer' }}
+      </button>
+    </div>
+  </section>
+}
